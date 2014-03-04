@@ -21,4 +21,5 @@ $cal->addEvent(
 		"color"=>"#D6FFD6"
 	)
 );
+echo $cal->showcal();
 ?>
