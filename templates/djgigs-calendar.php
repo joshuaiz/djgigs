@@ -1,7 +1,6 @@
 <?php 
 
-$plugin_url = plugin_dir_url( __FILE__ );
-include($plugin_url .'/includes/calendar.class.php');
+include('calendar.class.php');
 
 $cal = new CALENDAR();
 $cal->weeknumbers = 'right';
