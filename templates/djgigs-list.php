@@ -11,12 +11,13 @@
 <table class="djgigs-table djgigs-header-table">
 	<tbody>
 	  <tr class="djgigs-header-row">
-	    <th class="djgigs-table djgigs-date">Date</th>
-	    <th class="djgigs-table djgigs-event-image-header">Image</th>
-	    <th class="djgigs-table djgigs-title">Event Title</th>
-	    <th class="djgigs-table djgigs-venue">Venue</th>
-	    <th class="djgigs-table djgigs-city">City</th>
-	    <th class="djgigs-table djgigs-country">Country</th>
+	    <th class="djgigs-date">Date</th>
+	    <th class="djgigs-event-image-header">Image</th>
+	    <th class="djgigs-title">Event Title</th>
+	    <th class="djgigs-artist">Artist</th>
+	    <th class="djgigs-venue">Venue</th>
+	    <th class="djgigs-city">City</th>
+	    <th class="djgigs-country">Country</th>
 	    <th class="djgigs-expand-heading">See More</th>
 	  </tr>
 	</tbody>
@@ -66,6 +67,13 @@
 				<td class="djgigs-title">
 					<strong><?php the_title(); ?></strong>
 				</td>
+				<td class="djgigs-artist">
+					<?php $posts = get_field('djgigs_artist'); // Relationship field
+ 					if( $posts ): ?>
+    				<?php foreach( $posts as $p):  ?>
+    					<a href="<?php echo get_permalink( $p->ID ); ?>"><?php echo get_the_title( $p->ID ); ?></a>	
+					<?php endforeach; ?>
+					<?php endif; // end our custom Loop within the loop ?>
 				<?php // Get Venue post object so we can grab elements from it in a custom Loop ?>
 				<?php 
 					$posts = get_field('djgigs_venue'); // Relationship field
