@@ -60,7 +60,7 @@
 				</td>
 				<?php endif; ?>
 				<td class="djgigs-event-image-header djgigs-event-image-1">
-					<a href="<?php the_field('djgigs_event_image_1'); ?>"><img class="djgigs-event-image-img" src="<?php the_field('djgigs_event_image_1'); ?>" height="48px" width="48px"/></a>
+					<a href="<?php the_field('djgigs_event_image_1'); ?>" rel="lightbox"><img class="djgigs-event-image-img" src="<?php the_field('djgigs_event_image_1'); ?>" height="48px" width="48px"/></a>
 				</td>
 
 				<td class="djgigs-title">
@@ -95,7 +95,7 @@
 			
 				<td class="djgigs-event-image-1 djgigs-event-image" colspan="1">
 					<div>
-						<img class="djgigs-event-image-img" src="<?php the_field('djgigs_event_image_1'); ?>" />
+						<a href="<?php the_field('djgigs_event_image_1'); ?>" rel="lightbox"><img class="djgigs-event-image-img" src="<?php the_field('djgigs_event_image_1'); ?>" /></a>
 					</div>
 				</td>
 				<td class="djgigs-event-info" colspan="4" rowspan="1">
@@ -121,35 +121,18 @@
 			<?php endif; ?>
 			</tr>
 			<tr>
-				<td class="djgigs-google-map" colspan="6">
-	
-				<?php $posts = get_field('djgigs_venue');
- 
-					if( $posts ): 
-    
-    					foreach( $posts as $post):
-        					setup_postdata($post);
-        					$vmap = get_field('djgigs_venue_google_map', $post->ID); ?>
-        						<div class="acf-map">
-									<div class="marker" data-lat="<?php echo $vmap['lat']; ?>" data-lng="<?php echo $vmap['lng']; ?>"></div>
-								</div>
-    					<?php endforeach; 
-    					wp_reset_postdata(); 
-					
-					else :
-    
-    				$location = get_field('djgigs_google_map');
-
-						if( !empty($location) ): ?>
-							<div class="acf-map">
-								<div class="marker" data-lat="<?php echo $location['lat']; ?>" data-lng="<?php echo $location['lng']; ?>"></di>
-							</div>
-
-						<?php endif;
-					
-					endif; ?>
-				
-				</td>					   
+			<?php $posts = get_field('djgigs_venue'); // Relationship field
+ 					if( $posts ): ?>
+ 					<td class="djgigs-google-map" colspan="6">
+    				<?php foreach( $posts as $p):  ?>
+    				<?php $vmap = get_field('djgigs_venue_google_map', $p->ID); ?>
+        				<div class="acf-map">
+							<div class="marker" data-lat="<?php echo $vmap['lat']; ?>" data-lng="<?php echo $vmap['lng']; ?>"></div>
+						</div>
+					<?php endforeach; ?>
+					</td>
+					<?php endif; // end our custom Loop within the loop ?>
+									   
 			</tr>
 			<tr>
 			<?php // Get Venue post object so we can grab elements from it in a custom Loop ?>
@@ -169,13 +152,13 @@
 			<tr>
 			<?php if( get_field('djgigs_event_price') ): ?>
 				<td class="djgigs-event-price">
-					Tickets: <?php the_field('djgigs_event_price'); ?>
+					Price: <?php the_field('djgigs_event_price'); ?>
 				</td>
 			<?php endif; ?>
 			
 				<td class="djgigs-ticket-url" colspan="4">
 				<?php if( get_field('djgigs_ticket_url') ): ?>
-					Get Tickets: <?php the_field('djgigs_ticket_url'); ?>
+					Buy Tickets: <a href="<?php the_field('djgigs_ticket_url'); ?>"><?php the_field('djgigs_ticket_url'); ?></a>
 				<?php endif; ?>
 				</td>
 			</tr>		
@@ -185,7 +168,7 @@
 					Event URL:
 				</td>
 				<td class="djgigs-event-url-1 djgigs-event-url" colspan="4">
-					<?php the_field('djgigs_event_url_1'); ?>
+					<a href="<?php the_field('djgigs_event_url_1'); ?>"><?php the_field('djgigs_event_url_1'); ?></a>
 				</td>
 			<?php endif; ?>
 			</tr>	
@@ -195,7 +178,7 @@
 		    		Event URL:
 		    	</td>
 		    	<td class="djgigs-event-url-2 djgigs-event-url" colspan="4">
-		    		<?php the_field('djgigs_event_url_2'); ?>
+		    		<a href="<?php the_field('djgigs_event_url_2'); ?>"><?php the_field('djgigs_event_url_2'); ?></a>
 		    	</td>
 		    <?php endif; ?>
 		  	</tr>

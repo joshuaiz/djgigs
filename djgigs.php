@@ -351,6 +351,43 @@ function djgigs_manage_djgig_columns( $column, $post_id ) {
 	}
 }
 
+add_filter( 'manage_edit-djgig_sortable_columns', 'djgig_sortable_columns' );
+
+function djgig_sortable_columns( $columns ) {
+
+	$columns['djgigs_event_start_date'] = 'djgigs_event_start_date';
+
+	return $columns;
+}
+
+add_action( 'load-edit.php', 'my_edit_djgig_load' );
+
+function my_edit_djgig_load() {
+	add_filter( 'request', 'my_sort_djgig' );
+}
+
+
+function my_sort_djgig( $vars ) {
+
+	
+	if ( isset( $vars['post_type'] ) && 'djgig' == $vars['post_type'] ) {
+
+		if ( isset( $vars['orderby'] ) && 'djgigs_event_start_date' == $vars['orderby'] ) {
+
+			/* Merge the query vars with our custom variables. */
+			$vars = array_merge(
+				$vars,
+				array(
+					'meta_key' => 'djgigs_event_start_date',
+					'orderby' => 'meta_value_num'
+				)
+			);
+		}
+	}
+
+	return $vars;
+}
+
 
 add_filter( 'manage_edit-djgig_venue_columns', 'djgigs_edit_djgig_venue_columns' ) ;
 

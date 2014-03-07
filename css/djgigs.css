@@ -5,7 +5,7 @@
 	margin-bottom: 0 !important;
 }
 .djgigs-table td, .djgigs-table th {
-	padding:10px 5px !important;
+	padding:10px 5px;
 	border-style:solid;
 	border-width:0px;
 	overflow:hidden;
@@ -71,9 +71,13 @@
 	border-bottom: 1px solid #ddd !important;
 }
 
-.djgigs-event-image {
+.djgigs-table .djgigs-event-image {
 	width: 152px;
+	vertical-align: top;
+	padding: 1em;
 }
+
+
 
 /*.djgigs-event-image-img {
 	width: 96px;
@@ -86,14 +90,14 @@
 	border-bottom: 1px solid #ddd !important;
 }
 
-.djgigs-event-info {
+.djgigs-table .djgigs-event-info {
 	display: block;
+	padding: 1em 1.5em;
 }
 
-.djgigs-event-info p {
-	padding: 0 1em;
+.djgigs-table .djgigs-event-info h3 {
+	margin-top: 0 !important;
 }
-
 
 .djgigs-expand-heading {
 	font-size: 12px;
