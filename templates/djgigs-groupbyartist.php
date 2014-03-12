@@ -7,8 +7,6 @@
 */
 ?>
 
-
-
 <?php	// Set up our djgig_artist Loop using WP_Query
 $args = array (
 	'post_type'              => 'djgig_artist',
@@ -26,54 +24,50 @@ if ( $artists->have_posts() ) {
 	while ( $artists->have_posts() ) {
 		$artists->the_post(); ?>
 
-		
-					<header class="entry-header">
-						<h1 class="entry-title"><?php the_title(); ?></h1>
-					</header>
+		<header class="entry-header">
+			<h1 class="entry-title"><?php the_title(); ?></h1>
+		</header>
  
-			<table class="djgigs-table djgigs-header-table">
-	<tbody>
-	  <tr class="djgigs-header-row">
-	    <th class="djgigs-date">Date</th>
-	    <th class="djgigs-event-image-header">Image</th>
-	    <th class="djgigs-title">Event Title</th>
-	    <th class="djgigs-venue">Venue</th>
-	    <th class="djgigs-city">City</th>
-	    <th class="djgigs-country">Country</th>
-	    <th class="djgigs-expand-heading">See More</th>
-	  </tr>
-	</tbody>
-</table>
+		<table class="djgigs-table djgigs-header-table">
+			<tbody>
+			  <tr class="djgigs-header-row">
+			    <th class="djgigs-date">Date</th>
+			    <th class="djgigs-event-image-header">Image</th>
+			    <th class="djgigs-title">Event Title</th>
+			    <th class="djgigs-venue">Venue</th>
+			    <th class="djgigs-city">City</th>
+			    <th class="djgigs-country">Country</th>
+			    <th class="djgigs-expand-heading">See More</th>
+			  </tr>
+			</tbody>
+		</table>
 
+		<?php 
 
-						<?php 
- 
-						/*
-						*  Query posts for a relationship value.
-						*  This method uses the meta_query LIKE to match the string "123" to the database value a:1:{i:0;s:3:"123";} (serialized array)
-						*/
- 						$time = current_time( 'timestamp' ); // Get localised unix timestamp
+		/*
+		*  Query posts for a relationship value.
+		*  This method uses the meta_query LIKE to match the string "123" to the database value a:1:{i:0;s:3:"123";} serialized array)
+		*/
+ 		$time = current_time( 'timestamp' ); // Get localised unix timestamp
+		$djgigs = get_posts(array(
+			'post_type' => 'djgig',
+			'meta_query' => array(
+				array(
+					'key' => 'djgigs_artist', // name of custom field
+					'value' => '"' . get_the_ID() . '"', // matches exaclty "123", not just 123. This prevents a match for"1234"
+					'compare' => 'LIKE'
+				)
+			)
+		));
 
-						$djgigs = get_posts(array(
-							'post_type' => 'djgig',
-							'meta_query' => array(
-								array(
-									'key' => 'djgigs_artist', // name of custom field
-									'value' => '"' . get_the_ID() . '"', // matches exaclty "123", not just 123. This prevents a match for "1234"
-									'compare' => 'LIKE'
-								)
-							)
-						));
- 
-						?>
-						<?php if( $djgigs ): ?>
-							
-							<?php foreach( $djgigs as $djgig ): ?>
+		if( $djgigs ):
+						
+		foreach( $djgigs as $djgig ):
 								
-			<?php $startDate = get_field( 'djgigs_event_start_date', $djgig->ID ); // Get event start date + time ?>
-	<?php if ( $startDate >= strtotime('-1 day', $time ) ) : // If events are in the past 24 hours or in the future, then show. ?>
+		$startDate = get_field( 'djgigs_event_start_date', $djgig->ID ); // Get event start date + time
+		if ( $startDate >= strtotime('-1 day', $time ) ) : // If events are in the past 24 hours or in the future, then show ?>
 
-	<table class="djgigs-table djgigs-summary-table">
+		<table class="djgigs-table djgigs-summary-table">
 		<tbody>
 			<tr class="djgigs-summary-row">
 				<?php if( get_field('djgigs_event_start_date', $djgig->ID) ): ?>
@@ -107,13 +101,9 @@ if ( $artists->have_posts() ) {
 				<td class="djgigs-expand">
 					<a class="djgigs-table-trigger" href="#"><span>+</span></a> <?php // trigger to show/hide more info table below ?>
 				</td>
-
-	
 				<?php endforeach; ?>		
- 					<?php endif; ?>	
-			<?php endif; ?>	
-				
-				
+ 				<?php endif; ?>	
+			<?php endif; ?>		
 			</tr>
 		</tbody>
 	</table>
@@ -121,7 +111,6 @@ if ( $artists->have_posts() ) {
 	<table id="post-<?php the_ID(); ?>" class="djgigs-table gig-table djgigs-detail-table">
 		<tbody>
 			<tr class="djgigs-event-image-info">
-			
 				<td class="djgigs-event-image-1 djgigs-event-image" colspan="1">
 					<div>
 						<a href="<?php the_field('djgigs_event_image_1', $djgig->ID); ?>" rel="lightbox"><img class="djgigs-event-image-img" src="<?php the_field('djgigs_event_image_1', $djgig->ID); ?>" /></a>
@@ -160,8 +149,7 @@ if ( $artists->have_posts() ) {
 						</div>
 					<?php endforeach; ?>
 					</td>
-					<?php endif; // end our custom Loop within the loop ?>
-									   
+					<?php endif; // end our custom Loop within the loop ?>							   
 			</tr>
 			<tr>
 			<?php // Get Venue post object so we can grab elements from it in a custom Loop ?>
@@ -213,15 +201,17 @@ if ( $artists->have_posts() ) {
 		  	</tr>
 		</tbody>
 	</table>
-
-
 <?php endforeach; ?>		
- <?php endif; ?>	
+<?php endif; ?>	
 <?php
+
 	}
-} else {
-	// no posts found
-}
+
+} else { ?>
+	
+	<h3>Sorry, no gigs to show right now.</h3>
+
+<?php }
 
 // Restore original Post Data
 wp_reset_postdata(); ?>
