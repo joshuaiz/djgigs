@@ -113,10 +113,12 @@ function add_custom_rewrite_rule() {
     } // end if/else
 
     // ...and we flush the rules
-    // flush_rewrite_rules();
+    flush_rewrite_rules();
 
 } // end add_custom_rewrite_rule
 add_action('init', 'add_custom_rewrite_rule');
+
+
 
 
 

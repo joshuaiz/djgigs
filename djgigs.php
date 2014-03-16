@@ -164,7 +164,7 @@ function djgig_venue_cpt() {
 		'exclude_from_search' => false,
 		'publicly_queryable'  => true,
 		'capability_type'     => 'post',
-		'rewrite'			  => array('slug' => 'venue'),
+		'rewrite'			  => true,
 	);
 	register_post_type( 'djgig_venue', $args );
 
@@ -211,7 +211,7 @@ function djgig_artist_cpt() {
 		'exclude_from_search' => false,
 		'publicly_queryable'  => true,
 		'capability_type'     => 'post',
-		'rewrite'			  => array('slug' => 'artist'),
+		'rewrite'			  => true,
 	);
 	register_post_type( 'djgig_artist', $args );
 
@@ -265,11 +265,20 @@ require_once ( plugin_dir_path( __FILE__ ) . '/includes/options.php') ;
 add_shortcode( 'djgigs', 'djgigs_shortcode' );
 add_shortcode( 'djgigs-list', 'djgigs_shortcode' );
 add_shortcode( 'djgigs-calendar', 'djgigs_calendar_shortcode' );
+add_shortcode( 'djgigs-artist', 'djgigs_groupbyartist_shortcode' );
 
 function djgigs_shortcode() {
 
 	ob_start();
   	include( plugin_dir_path( __FILE__ ) . '/templates/djgigs-list.php'); // grab template part 
+ 	return ob_get_clean();
+
+}
+
+function djgigs_groupbyartist_shortcode() {
+
+	ob_start();
+  	include( plugin_dir_path( __FILE__ ) . '/templates/djgigs-groupbyartist.php'); // grab template part 
  	return ob_get_clean();
 
 }
