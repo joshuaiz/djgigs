@@ -30,5 +30,8 @@ djgigs_venue_url
 
 djgigs_artist_website
 djgigs_artist_twitter
+djgigs_artist_image
+djgigs_artist_url
+
 
 
